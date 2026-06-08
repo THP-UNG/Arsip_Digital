@@ -19,87 +19,134 @@ href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512
 href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 
 <style>
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#fff;
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#fff;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
+/* Splash Screen */
 #splash{
-  position:fixed;
-  inset:0;
-  background:#ffffff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+    position:fixed;
+    inset:0;
+    background:#ffffff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    transition:opacity .6s ease;
 }
 
+#splash.hide{
+    opacity:0;
+    pointer-events:none;
+}
+
+/* Logo Zoom Animation */
 #splash img{
-  width:170px;
-  max-width:45vw;
+    width:180px;
+    max-width:45vw;
+    animation:zoomLogo 1.5s ease forwards;
+}
+
+@keyframes zoomLogo{
+    0%{
+        transform:scale(.5);
+        opacity:0;
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 
 #splash h2{
-  margin:18px 0 0;
-  color:#333;
-  font-family:Arial,sans-serif;
-  font-size:22px;
-  font-weight:700;
+    margin:20px 0 8px;
+    color:#222;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:.5px;
 }
 
 #splash p{
-  margin:8px 0 0;
-  color:#666;
-  font-family:Arial,sans-serif;
+    margin:0;
+    color:#666;
+    font-size:14px;
 }
 
-.hide{
-  opacity:0;
-  pointer-events:none;
-  transition:.5s;
-}
-
+/* Iframe */
 .iframe-container{
-  width:100%;
-  height:100dvh;
+    width:100%;
+    height:100dvh;
 }
 
 iframe{
-  width:100%;
-  height:100%;
-  border:none;
+    display:block;
+    width:100%;
+    height:100%;
+    border:none;
 }
 </style>
 </head>
 
 <body>
 
+<!-- Splash -->
 <div id="splash">
-  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
-  <h2>ARSIP DIGITAL THP</h2>
-  <p>Universitas Negeri Gorontalo</p>
+    <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512"
+         alt="Logo THP">
+
+    <h2>ARSIP DIGITAL THP</h2>
+    <p>Universitas Negeri Gorontalo</p>
 </div>
 
+<!-- App -->
 <div class="iframe-container">
-  <iframe
-    id="app"
-    src="https://script.google.com/macros/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
-    allow="fullscreen; camera; microphone; display-capture; geolocation;"
-    allowfullscreen>
-  </iframe>
+    <iframe
+        id="app"
+        src="https://script.google.com/a/macros/ung.ac.id/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
+        scrolling="yes"
+        allowfullscreen="true"
+        webkitallowfullscreen="true"
+        mozallowfullscreen="true"
+        allow="fullscreen; camera; microphone; display-capture; geolocation;">
+    </iframe>
 </div>
 
 <script>
-window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    document.getElementById('splash').classList.add('hide');
-  },1500);
+const splash = document.getElementById('splash');
+const iframe = document.getElementById('app');
+
+/* Hilangkan splash saat iframe selesai dimuat */
+iframe.addEventListener('load', () => {
+    setTimeout(() => {
+        splash.classList.add('hide');
+
+        setTimeout(() => {
+            splash.remove();
+        }, 600);
+
+    }, 500);
 });
+
+/* Fallback jika iframe lambat */
+setTimeout(() => {
+    if(document.getElementById('splash')){
+        splash.classList.add('hide');
+
+        setTimeout(() => {
+            if(document.getElementById('splash')){
+                splash.remove();
+            }
+        }, 600);
+    }
+}, 5000);
 </script>
 
 </body>
