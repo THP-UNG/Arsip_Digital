@@ -1,1 +1,194 @@
-<!DOCTYPE html><html><head><meta charset='UTF-8'><title>ARSIP DIGITAL THP</title><link rel='manifest' href='manifest.json'></head><body><h1>THP PWA Package</h1><p>Gunakan kode lengkap yang telah diberikan di chat untuk mengganti file ini bila diperlukan.</p></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARSIP DIGITAL THP</title>
+
+<meta name="theme-color" content="#ffffff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ARSIP DIGITAL THP">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon"
+href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+
+<link rel="apple-touch-icon"
+href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#fff;
+  font-family:Arial,sans-serif;
+}
+
+/* SPLASH */
+#splash{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  transition:.5s;
+}
+
+#splash.hide{
+  opacity:0;
+  pointer-events:none;
+}
+
+#splash img{
+  width:180px;
+  animation:zoomLogo 1.5s ease forwards;
+}
+
+@keyframes zoomLogo{
+  from{
+    opacity:0;
+    transform:scale(.5);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+#splash h2{
+  margin:20px 0 5px;
+  color:#222;
+}
+
+#splash p{
+  margin:0;
+  color:#666;
+}
+
+.loader{
+  width:220px;
+  height:6px;
+  background:#eee;
+  margin-top:25px;
+  border-radius:50px;
+  overflow:hidden;
+}
+
+.loader span{
+  display:block;
+  height:100%;
+  background:#dc2626;
+  animation:loading 1.5s linear infinite;
+}
+
+@keyframes loading{
+  from{width:0}
+  to{width:100%}
+}
+
+/* INSTALL BUTTON */
+#installBtn{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  background:#dc2626;
+  color:#fff;
+  font-size:15px;
+  font-weight:bold;
+  z-index:999;
+  display:none;
+  box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.iframe-container{
+  width:100%;
+  height:100dvh;
+}
+
+iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+
+  <h2>ARSIP DIGITAL THP</h2>
+  <p>Universitas Negeri Gorontalo</p>
+
+  <div class="loader">
+    <span></span>
+  </div>
+</div>
+
+<button id="installBtn">
+📲 Install Aplikasi
+</button>
+
+<div class="iframe-container">
+  <iframe
+    id="app"
+    src="https://script.google.com/macros/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
+    allow="fullscreen; camera; microphone; display-capture; geolocation;"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+const splash = document.getElementById('splash');
+const iframe = document.getElementById('app');
+
+iframe.addEventListener('load',()=>{
+  setTimeout(()=>{
+    splash.classList.add('hide');
+  },500);
+});
+
+/* Register Service Worker */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js');
+}
+
+/* Install App */
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+
+  deferredPrompt = e;
+
+  const btn = document.getElementById('installBtn');
+  btn.style.display='block';
+
+  btn.onclick = async ()=>{
+    deferredPrompt.prompt();
+
+    await deferredPrompt.userChoice;
+
+    btn.style.display='none';
+
+    deferredPrompt = null;
+  };
+});
+</script>
+
+</body>
+</html>
