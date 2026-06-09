@@ -143,6 +143,13 @@ html,body{
     }
 }
 
+/* Desktop dan Laptop */
+@media screen and (min-width: 769px){
+    #installBtn{
+        display:none !important;
+    }
+}
+
 /* INSTALL BUTTON */
 #installBtn{
   position:fixed;
@@ -226,22 +233,28 @@ if('serviceWorker' in navigator){
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt',(e)=>{
-  e.preventDefault();
 
-  deferredPrompt = e;
+    // Desktop/Laptop
+    if (window.innerWidth > 768) return;
 
-  const btn = document.getElementById('installBtn');
-  btn.style.display='block';
+    // Bukan HP
+    const isMobile =
+      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 
-  btn.onclick = async ()=>{
-    deferredPrompt.prompt();
+    if (!isMobile) return;
 
-    await deferredPrompt.userChoice;
+    // Jika sudah terinstall
+    const installed =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
 
-    btn.style.display='none';
+    if (installed) return;
 
-    deferredPrompt = null;
-  };
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    document.getElementById('installBtn').style.display = 'block';
 });
 </script>
 
