@@ -14,180 +14,239 @@
 
 <link rel="manifest" href="manifest.json">
 
-<link rel="icon"
-href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
-
-<link rel="apple-touch-icon"
-href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+<link rel="icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+<link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 
 <style>
+
 html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#fff;
-  font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#ffffff;
+    font-family:Arial,sans-serif;
 }
 
 /* SPLASH */
+
 #splash{
-  position:fixed;
-  inset:0;
-  background:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-  transition:.5s;
+    position:fixed;
+    inset:0;
+    background:#ffffff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    transition:.5s;
 }
 
 #splash.hide{
-  opacity:0;
-  pointer-events:none;
+    opacity:0;
+    pointer-events:none;
 }
 
 #splash img{
-  width:180px;
-  animation:zoomLogo 1.5s ease forwards;
+    width:180px;
+    animation:zoomLogo 1.5s ease forwards;
 }
 
 @keyframes zoomLogo{
-  from{
-    opacity:0;
-    transform:scale(.5);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
+    from{
+        opacity:0;
+        transform:scale(.5);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
 }
 
 #splash h2{
-  margin:20px 0 5px;
-  color:#222;
+    margin:20px 0 5px;
+    color:#222;
 }
 
 #splash p{
-  margin:0;
-  color:#666;
+    margin:0;
+    color:#666;
 }
 
 .loader{
-  width:220px;
-  height:6px;
-  background:#eee;
-  margin-top:25px;
-  border-radius:50px;
-  overflow:hidden;
+    width:220px;
+    height:6px;
+    background:#eee;
+    margin-top:25px;
+    border-radius:30px;
+    overflow:hidden;
 }
 
 .loader span{
-  display:block;
-  height:100%;
-  background:#dc2626;
-  animation:loading 1.5s linear infinite;
+    display:block;
+    height:100%;
+    background:#dc2626;
+    animation:loading 1.5s linear infinite;
 }
 
 @keyframes loading{
-  from{width:0}
-  to{width:100%}
+    from{width:0}
+    to{width:100%}
 }
 
 /* INSTALL BUTTON */
+
 #installBtn{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:12px 20px;
-  border:none;
-  border-radius:10px;
-  background:#dc2626;
-  color:#fff;
-  font-size:15px;
-  font-weight:bold;
-  z-index:999;
-  display:none;
-  box-shadow:0 4px 15px rgba(0,0,0,.15);
+    display:none;
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:12px 20px;
+    border:none;
+    border-radius:12px;
+    background:#dc2626;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    z-index:999;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+/* Desktop */
+
+@media (min-width:1024px){
+    #installBtn{
+        display:none !important;
+    }
 }
 
 .iframe-container{
-  width:100%;
-  height:100dvh;
+    width:100%;
+    height:100dvh;
 }
 
 iframe{
-  width:100%;
-  height:100%;
-  border:none;
+    width:100%;
+    height:100%;
+    border:none;
 }
+
 </style>
 </head>
+
 <body>
 
+<!-- SPLASH -->
+
 <div id="splash">
-  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 
-  <h2>ARSIP DIGITAL THP</h2>
-  <p>Universitas Negeri Gorontalo</p>
+    <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 
-  <div class="loader">
-    <span></span>
-  </div>
+    <h2>ARSIP DIGITAL THP</h2>
+
+    <p>Universitas Negeri Gorontalo</p>
+
+    <div class="loader">
+        <span></span>
+    </div>
+
 </div>
+
+<!-- INSTALL BUTTON -->
 
 <button id="installBtn">
 📲 Install Aplikasi
 </button>
 
+<!-- APP -->
+
 <div class="iframe-container">
-  <iframe
-    id="app"
-    src="https://script.google.com/macros/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
-    allow="fullscreen; camera; microphone; display-capture; geolocation;"
-    allowfullscreen>
-  </iframe>
+
+<iframe
+id="app"
+src="https://script.google.com/macros/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
+allow="fullscreen; camera; microphone; display-capture; geolocation;"
+allowfullscreen>
+</iframe>
+
 </div>
 
 <script>
+
+/* SPLASH */
+
 const splash = document.getElementById('splash');
 const iframe = document.getElementById('app');
 
 iframe.addEventListener('load',()=>{
-  setTimeout(()=>{
-    splash.classList.add('hide');
-  },500);
+
+    setTimeout(()=>{
+
+        splash.classList.add('hide');
+
+    },500);
+
 });
 
-/* Register Service Worker */
+/* SERVICE WORKER */
+
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js');
+
+    navigator.serviceWorker.register('./sw.js');
+
 }
 
-/* Install App */
+/* INSTALL APP */
+
+const isAndroid =
+/Android/i.test(navigator.userAgent);
+
+const isMobile =
+/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt',(e)=>{
-  e.preventDefault();
 
-  deferredPrompt = e;
+    if(!isMobile) return;
 
-  const btn = document.getElementById('installBtn');
-  btn.style.display='block';
+    e.preventDefault();
 
-  btn.onclick = async ()=>{
-    deferredPrompt.prompt();
+    deferredPrompt = e;
 
-    await deferredPrompt.userChoice;
+    const btn =
+    document.getElementById('installBtn');
 
-    btn.style.display='none';
+    if(isAndroid){
 
-    deferredPrompt = null;
-  };
+        btn.style.display='block';
+
+    }
+
+    btn.onclick = async ()=>{
+
+        if(!deferredPrompt) return;
+
+        deferredPrompt.prompt();
+
+        await deferredPrompt.userChoice;
+
+        btn.style.display='none';
+
+        deferredPrompt = null;
+    };
+
 });
+
+window.addEventListener('appinstalled',()=>{
+
+    document.getElementById('installBtn')
+    .style.display='none';
+
+});
+
 </script>
 
 </body>
