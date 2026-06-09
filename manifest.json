@@ -1,7 +1,7 @@
 {
   "name": "ARSIP DIGITAL THP",
   "short_name": "THP Arsip",
-  "description": "Arsip Digital THP Universitas Negeri Gorontalo",
+  "description": "Arsip Digital THP",
   "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
