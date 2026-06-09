@@ -32,68 +32,115 @@ html,body{
 }
 
 /* SPLASH */
+
 #splash{
-  position:fixed;
-  inset:0;
-  background:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-  transition:.5s;
+    position:fixed;
+    inset:0;
+    background:#ffffff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    transition:opacity .8s ease;
 }
 
 #splash.hide{
-  opacity:0;
-  pointer-events:none;
+    opacity:0;
+    pointer-events:none;
 }
+
+/* LOGO */
 
 #splash img{
-  width:180px;
-  animation:zoomLogo 1.5s ease forwards;
+    width:160px;
+    max-width:40vw;
+    opacity:0;
+    transform:scale(.85);
+    animation:logoAppear 1.4s ease forwards;
 }
 
-@keyframes zoomLogo{
-  from{
-    opacity:0;
-    transform:scale(.5);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
+@keyframes logoAppear{
+    0%{
+        opacity:0;
+        transform:scale(.85);
+    }
+
+    60%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
 }
+
+/* JUDUL */
 
 #splash h2{
-  margin:20px 0 5px;
-  color:#222;
+    margin:22px 0 6px;
+    color:#1f2937;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:.3px;
+
+    opacity:0;
+    animation:textAppear .8s ease forwards;
+    animation-delay:.5s;
 }
 
 #splash p{
-  margin:0;
-  color:#666;
+    margin:0;
+    color:#6b7280;
+    font-size:14px;
+
+    opacity:0;
+    animation:textAppear .8s ease forwards;
+    animation-delay:.8s;
 }
 
+@keyframes textAppear{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* LOADING BAR */
+
 .loader{
-  width:220px;
-  height:6px;
-  background:#eee;
-  margin-top:25px;
-  border-radius:50px;
-  overflow:hidden;
+    width:220px;
+    height:4px;
+    margin-top:30px;
+    background:#f1f5f9;
+    border-radius:999px;
+    overflow:hidden;
 }
 
 .loader span{
-  display:block;
-  height:100%;
-  background:#dc2626;
-  animation:loading 1.5s linear infinite;
+    display:block;
+    height:100%;
+    width:40%;
+    background:#dc2626;
+    border-radius:999px;
+
+    animation:slide 1.3s ease-in-out infinite;
 }
 
-@keyframes loading{
-  from{width:0}
-  to{width:100%}
+@keyframes slide{
+    0%{
+        transform:translateX(-100%);
+    }
+
+    100%{
+        transform:translateX(350%);
+    }
 }
 
 /* INSTALL BUTTON */
@@ -156,10 +203,18 @@ iframe{
 const splash = document.getElementById('splash');
 const iframe = document.getElementById('app');
 
-iframe.addEventListener('load',()=>{
-  setTimeout(()=>{
-    splash.classList.add('hide');
-  },500);
+iframe.addEventListener('load', () => {
+
+    setTimeout(() => {
+
+        splash.classList.add('hide');
+
+        setTimeout(() => {
+            splash.remove();
+        }, 800);
+
+    }, 1200);
+
 });
 
 /* Register Service Worker */
