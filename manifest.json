@@ -1,5 +1,22 @@
 {
   "name": "ARSIP DIGITAL THP",
   "short_name": "THP Arsip",
-  "display": "standalone"
+  "description": "Arsip Digital THP Universitas Negeri Gorontalo",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
