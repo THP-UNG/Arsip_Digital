@@ -2,10 +2,11 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>ARSIP DIGITAL THP</title>
 
+<meta name="description" content="Arsip Digital THP Universitas Negeri Gorontalo">
 <meta name="theme-color" content="#ffffff">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,272 +14,274 @@
 <meta name="apple-mobile-web-app-title" content="ARSIP DIGITAL THP">
 
 <link rel="manifest" href="manifest.json">
-
-<link rel="icon"
-href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
-
-<link rel="apple-touch-icon"
-href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+<link rel="icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
+<link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 
 <style>
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#fff;
-  font-family:Arial,sans-serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  font-family: Arial, sans-serif;
 }
 
 /* SPLASH */
-
-#splash{
-    position:fixed;
-    inset:0;
-    background:#ffffff;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    transition:opacity .8s ease;
+#splash {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity .8s ease;
 }
-
-#splash.hide{
-    opacity:0;
-    pointer-events:none;
+#splash.hide {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* LOGO */
-
-#splash img{
-    width:160px;
-    max-width:40vw;
-    opacity:0;
-    transform:scale(.85);
-    animation:logoAppear 1.4s ease forwards;
+#splash img {
+  width: 160px;
+  max-width: 40vw;
+  opacity: 0;
+  transform: scale(.85);
+  animation: logoAppear 1.4s ease forwards;
 }
-
-@keyframes logoAppear{
-    0%{
-        opacity:0;
-        transform:scale(.85);
-    }
-
-    60%{
-        opacity:1;
-    }
-
-    100%{
-        opacity:1;
-        transform:scale(1);
-    }
+@keyframes logoAppear {
+  0%   { opacity: 0; transform: scale(.85); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 /* JUDUL */
-
-#splash h2{
-    margin:22px 0 6px;
-    color:#1f2937;
-    font-size:24px;
-    font-weight:700;
-    letter-spacing:.3px;
-
-    opacity:0;
-    animation:textAppear .8s ease forwards;
-    animation-delay:.5s;
+#splash h2 {
+  margin: 22px 0 6px;
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  text-align: center;
+  padding: 0 16px;
+  opacity: 0;
+  animation: textAppear .8s ease forwards;
+  animation-delay: .5s;
 }
-
-#splash p{
-    margin:0;
-    color:#6b7280;
-    font-size:14px;
-
-    opacity:0;
-    animation:textAppear .8s ease forwards;
-    animation-delay:.8s;
+#splash p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+  padding: 0 16px;
+  opacity: 0;
+  animation: textAppear .8s ease forwards;
+  animation-delay: .8s;
 }
-
-@keyframes textAppear{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+@keyframes textAppear {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* LOADING BAR */
-
-.loader{
-    width:220px;
-    height:4px;
-    margin-top:30px;
-    background:#f1f5f9;
-    border-radius:999px;
-    overflow:hidden;
+.loader {
+  width: 220px;
+  max-width: 60vw;
+  height: 4px;
+  margin-top: 30px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.loader span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: #dc2626;
+  border-radius: 999px;
+  animation: slide 1.3s ease-in-out infinite;
+}
+@keyframes slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
 }
 
-.loader span{
-    display:block;
-    height:100%;
-    width:40%;
-    background:#dc2626;
-    border-radius:999px;
-
-    animation:slide 1.3s ease-in-out infinite;
-}
-
-@keyframes slide{
-    0%{
-        transform:translateX(-100%);
-    }
-
-    100%{
-        transform:translateX(350%);
-    }
-}
-
-/* Desktop dan Laptop */
-@media screen and (min-width: 769px){
-    #installBtn{
-        display:none !important;
-    }
-}
+/* Splash fallback jika logo gagal dimuat */
+#splash img.broken { display: none; }
 
 /* INSTALL BUTTON */
-#installBtn{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:12px 20px;
-  border:none;
-  border-radius:10px;
-  background:#dc2626;
-  color:#fff;
-  font-size:15px;
-  font-weight:bold;
-  z-index:999;
-  display:none;
-  box-shadow:0 4px 15px rgba(0,0,0,.15);
+#installBtn {
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #dc2626;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  z-index: 999;
+  display: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,.15);
+}
+@media screen and (min-width: 769px) {
+  #installBtn { display: none !important; }
 }
 
-.iframe-container{
-  width:100%;
-  height:100dvh;
+.iframe-container {
+  width: 100%;
+  height: 100dvh;
+}
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-iframe{
-  width:100%;
-  height:100%;
-  border:none;
+/* Pesan error koneksi */
+#errorBox {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  padding: 24px;
+  text-align: center;
+}
+#errorBox h3 { color: #1f2937; margin: 0 0 8px; }
+#errorBox p  { color: #6b7280; font-size: 14px; margin: 0 0 20px; }
+#errorBox button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 10px;
+  background: #dc2626;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
 </head>
 <body>
 
 <div id="splash">
-  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
-
+  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512"
+       alt="Logo THP"
+       onerror="this.classList.add('broken')">
   <h2>ARSIP DIGITAL THP</h2>
   <p>Universitas Negeri Gorontalo</p>
-
-  <div class="loader">
-    <span></span>
-  </div>
+  <div class="loader"><span></span></div>
 </div>
 
-<button id="installBtn">
-📲 Install Aplikasi
-</button>
+<div id="errorBox">
+  <h3>Gagal Memuat Aplikasi</h3>
+  <p>Periksa koneksi internet Anda, lalu coba lagi.</p>
+  <button onclick="location.reload()">Muat Ulang</button>
+</div>
+
+<button id="installBtn" type="button">📲 Install Aplikasi</button>
 
 <div class="iframe-container">
   <iframe
     id="app"
     src="https://script.google.com/macros/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
-    allow="fullscreen; camera; microphone; display-capture; geolocation;"
+    title="Arsip Digital THP"
+    allow="fullscreen; camera; microphone; display-capture; geolocation; clipboard-read; clipboard-write"
     allowfullscreen>
   </iframe>
 </div>
 
 <script>
-const splash = document.getElementById('splash');
-const iframe = document.getElementById('app');
+(function () {
+  'use strict';
 
-iframe.addEventListener('load', () => {
+  var splash    = document.getElementById('splash');
+  var iframe    = document.getElementById('app');
+  var installBtn = document.getElementById('installBtn');
+  var errorBox  = document.getElementById('errorBox');
 
-    setTimeout(() => {
+  /* Definisikan isMobile DULU sebelum dipakai */
+  var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 
-        splash.classList.add('hide');
+  /* Deteksi sudah terpasang sebagai PWA */
+  function isInstalled() {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           window.navigator.standalone === true;
+  }
 
-        setTimeout(() => {
-            splash.remove();
-        }, 800);
+  /* ── Splash: sembunyikan setelah iframe load ── */
+  var splashHidden = false;
+  function hideSplash() {
+    if (splashHidden || !splash) return;
+    splashHidden = true;
+    splash.classList.add('hide');
+    setTimeout(function () { if (splash && splash.parentNode) splash.remove(); }, 800);
+  }
 
-    }, 1200);
+  iframe.addEventListener('load', function () {
+    setTimeout(hideSplash, 1200);
+  });
 
-});
+  /* Fallback: jika iframe tak kunjung load dalam 15 detik → tampilkan error */
+  var loadTimeout = setTimeout(function () {
+    if (!splashHidden && errorBox) {
+      errorBox.style.display = 'flex';
+    }
+  }, 15000);
+  iframe.addEventListener('load', function () { clearTimeout(loadTimeout); });
 
-/* Register Service Worker */
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js');
-}
+  /* Fallback tambahan: paksa sembunyikan splash setelah 8 detik apapun yang terjadi */
+  setTimeout(hideSplash, 8000);
 
-const installBtn = document.getElementById('installBtn');
-if (!isMobile) {
+  /* ── Service Worker ── */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function (err) {
+        console.warn('SW registration failed:', err);
+      });
+    });
+  }
+
+  /* ── Tombol Install (hanya mobile & belum terpasang) ── */
+  if (!isMobile && installBtn) {
     installBtn.remove();
-}
+    installBtn = null;
+  }
 
-const isMobile =
-/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  var deferredPrompt = null;
 
-if (!isMobile) {
-    installBtn.remove();
-}
-  
-/* Install App */
-let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    if (!isMobile || isInstalled() || !installBtn) return;
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
+  });
 
-window.addEventListener('beforeinstallprompt', (e) => {
+  if (installBtn) {
+    installBtn.addEventListener('click', function () {
+      if (!deferredPrompt) return;
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function () {
+        deferredPrompt = null;
+      });
+    });
+  }
 
-if (!isMobile) return;
-
-const installed =
-  window.matchMedia('(display-mode: standalone)').matches ||
-  window.navigator.standalone === true;
-
-if (installed) return;
-
-e.preventDefault();
-
-deferredPrompt = e;
-
-installBtn.style.display = 'block';
-
-installBtn.onclick = async () => {
-
-    if (!deferredPrompt) return;
-
-    installBtn.style.display = 'none';
-
-    deferredPrompt.prompt();
-
-    await deferredPrompt.userChoice;
-
+  window.addEventListener('appinstalled', function () {
+    if (installBtn) installBtn.style.display = 'none';
     deferredPrompt = null;
-};
-
-});
-
-window.addEventListener('appinstalled', () => {
-installBtn.style.display = 'none';
-});
-
+  });
+})();
 </script>
 
 </body>
