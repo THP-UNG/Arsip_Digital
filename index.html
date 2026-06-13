@@ -18,165 +18,50 @@
 <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #fff;
-  font-family: Arial, sans-serif;
-}
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #fff; font-family: Arial, sans-serif; }
 
 /* SPLASH */
-#splash {
-  position: fixed;
-  inset: 0;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  transition: opacity .8s ease;
-}
-#splash.hide {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* LOGO */
-#splash img {
-  width: 160px;
-  max-width: 40vw;
-  opacity: 0;
-  transform: scale(.85);
-  animation: logoAppear 1.4s ease forwards;
-}
-@keyframes logoAppear {
-  0%   { opacity: 0; transform: scale(.85); }
-  60%  { opacity: 1; }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* JUDUL */
-#splash h2 {
-  margin: 22px 0 6px;
-  color: #1f2937;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  text-align: center;
-  padding: 0 16px;
-  opacity: 0;
-  animation: textAppear .8s ease forwards;
-  animation-delay: .5s;
-}
-#splash p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 14px;
-  text-align: center;
-  padding: 0 16px;
-  opacity: 0;
-  animation: textAppear .8s ease forwards;
-  animation-delay: .8s;
-}
-@keyframes textAppear {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* LOADING BAR */
-.loader {
-  width: 220px;
-  max-width: 60vw;
-  height: 4px;
-  margin-top: 30px;
-  background: #f1f5f9;
-  border-radius: 999px;
-  overflow: hidden;
-}
-.loader span {
-  display: block;
-  height: 100%;
-  width: 40%;
-  background: #dc2626;
-  border-radius: 999px;
-  animation: slide 1.3s ease-in-out infinite;
-}
-@keyframes slide {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(350%); }
-}
-
-/* Splash fallback jika logo gagal dimuat */
+#splash { position: fixed; inset: 0; background: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity .8s ease; }
+#splash.hide { opacity: 0; pointer-events: none; }
+#splash img { width: 160px; max-width: 40vw; opacity: 0; transform: scale(.85); animation: logoAppear 1.4s ease forwards; }
 #splash img.broken { display: none; }
+@keyframes logoAppear { 0% { opacity: 0; transform: scale(.85); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+#splash h2 { margin: 22px 0 6px; color: #1f2937; font-size: 24px; font-weight: 700; letter-spacing: .3px; text-align: center; padding: 0 16px; opacity: 0; animation: textAppear .8s ease forwards; animation-delay: .5s; }
+#splash p { margin: 0; color: #6b7280; font-size: 14px; text-align: center; padding: 0 16px; opacity: 0; animation: textAppear .8s ease forwards; animation-delay: .8s; }
+@keyframes textAppear { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.loader { width: 220px; max-width: 60vw; height: 4px; margin-top: 30px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
+.loader span { display: block; height: 100%; width: 40%; background: #dc2626; border-radius: 999px; animation: slide 1.3s ease-in-out infinite; }
+@keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
 
 /* INSTALL BUTTON */
-#installBtn {
-  position: fixed;
-  bottom: calc(20px + env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #dc2626;
-  color: #fff;
-  font-size: 15px;
-  font-weight: bold;
-  z-index: 999;
-  display: none;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,.15);
-}
-@media screen and (min-width: 769px) {
-  #installBtn { display: none !important; }
-}
+#installBtn { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); padding: 12px 20px; border: none; border-radius: 10px; background: #dc2626; color: #fff; font-size: 15px; font-weight: bold; z-index: 999; display: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,.15); }
+@media screen and (min-width: 769px) { #installBtn { display: none !important; } }
 
-.iframe-container {
-  width: 100%;
-  height: 100dvh;
-}
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+.iframe-container { width: 100%; height: 100dvh; }
+iframe { width: 100%; height: 100%; border: none; }
 
-/* Pesan error koneksi */
-#errorBox {
-  position: fixed;
-  inset: 0;
-  background: #fff;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9998;
-  padding: 24px;
-  text-align: center;
-}
+/* ERROR */
+#errorBox { position: fixed; inset: 0; background: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9998; padding: 24px; text-align: center; }
 #errorBox h3 { color: #1f2937; margin: 0 0 8px; }
-#errorBox p  { color: #6b7280; font-size: 14px; margin: 0 0 20px; }
-#errorBox button {
-  padding: 10px 24px;
-  border: none;
-  border-radius: 10px;
-  background: #dc2626;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
+#errorBox p { color: #6b7280; font-size: 14px; margin: 0 0 20px; }
+#errorBox button { padding: 10px 24px; border: none; border-radius: 10px; background: #dc2626; color: #fff; font-weight: bold; cursor: pointer; }
+
+/* BIOMETRIK PROMPT (overlay saat buka app) */
+#bioOverlay { position: fixed; inset: 0; background: rgba(255,255,255,.97); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9997; padding: 24px; text-align: center; }
+#bioOverlay .bioIcon { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg,#4f46e5,#2563eb); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 8px 24px rgba(37,99,235,.3); }
+#bioOverlay .bioIcon svg { width: 36px; height: 36px; fill: #fff; }
+#bioOverlay h3 { color: #1f2937; margin: 0 0 6px; font-size: 18px; }
+#bioOverlay p { color: #6b7280; font-size: 13px; margin: 0 0 22px; max-width: 280px; }
+#bioOverlay .bioBtns { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 260px; }
+#bioOverlay button { padding: 12px 20px; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
+#bioLoginBtn { background: linear-gradient(135deg,#4f46e5,#2563eb); color: #fff; }
+#bioSkipBtn { background: #f1f5f9; color: #475569; }
 </style>
 </head>
 <body>
 
 <div id="splash">
-  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512"
-       alt="Logo THP"
-       onerror="this.classList.add('broken')">
+  <img src="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512" alt="Logo THP" onerror="this.classList.add('broken')">
   <h2>ARSIP DIGITAL THP</h2>
   <p>Universitas Negeri Gorontalo</p>
   <div class="loader"><span></span></div>
@@ -188,14 +73,26 @@ iframe {
   <button onclick="location.reload()">Muat Ulang</button>
 </div>
 
+<!-- Overlay biometrik -->
+<div id="bioOverlay">
+  <div class="bioIcon">
+    <svg viewBox="0 0 24 24"><path d="M12 1C7 1 3 5 3 10v2c0 1 .8 2 2 2h.5c.3 0 .5-.2.5-.5V10c0-3.3 2.7-6 6-6s6 2.7 6 6v3.5c0 .3.2.5.5.5H19c1.2 0 2-1 2-2v-2c0-5-4-9-9-9zm0 6c-1.7 0-3 1.3-3 3v6c0 1.7 1.3 3 3 3s3-1.3 3-3v-6c0-1.7-1.3-3-3-3z"/></svg>
+  </div>
+  <h3>Login Biometrik</h3>
+  <p>Gunakan Face ID atau sidik jari untuk masuk dengan cepat.</p>
+  <div class="bioBtns">
+    <button id="bioLoginBtn" type="button">🔓 Masuk dengan Biometrik</button>
+    <button id="bioSkipBtn" type="button">Login Manual</button>
+  </div>
+</div>
+
 <button id="installBtn" type="button">📲 Install Aplikasi</button>
 
 <div class="iframe-container">
-  <iframe
-    id="app"
+  <iframe id="app"
     src="https://script.google.com/macros/s/AKfycbwgSQNgXoCdhYxKBdfp4qiJtUmp3b4recBfa35h6oopaDMXMNF-svOGcmGWm6nFXsT7tA/exec"
     title="Arsip Digital THP"
-    allow="fullscreen; camera; microphone; display-capture; geolocation; clipboard-read; clipboard-write"
+    allow="fullscreen; camera; microphone; display-capture; geolocation; clipboard-read; clipboard-write; publickey-credentials-get *; publickey-credentials-create *"
     allowfullscreen>
   </iframe>
 </div>
@@ -204,79 +101,250 @@ iframe {
 (function () {
   'use strict';
 
-  var splash    = document.getElementById('splash');
-  var iframe    = document.getElementById('app');
+  var splash     = document.getElementById('splash');
+  var iframe     = document.getElementById('app');
   var installBtn = document.getElementById('installBtn');
-  var errorBox  = document.getElementById('errorBox');
+  var errorBox   = document.getElementById('errorBox');
+  var bioOverlay = document.getElementById('bioOverlay');
+  var bioLoginBtn = document.getElementById('bioLoginBtn');
+  var bioSkipBtn  = document.getElementById('bioSkipBtn');
 
-  /* Definisikan isMobile DULU sebelum dipakai */
   var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 
-  /* Deteksi sudah terpasang sebagai PWA */
+  /* Origin aplikasi GAS — WAJIB untuk validasi postMessage */
+  var APP_ORIGIN = 'https://script.google.com';
+
   function isInstalled() {
-    return window.matchMedia('(display-mode: standalone)').matches ||
-           window.navigator.standalone === true;
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   }
 
-  /* ── Splash: sembunyikan setelah iframe load ── */
+  /* ════════════════════════════════════════
+     BIOMETRIK (WebAuthn) — jalan di GitHub Pages
+     ════════════════════════════════════════ */
+  var BIO_CRED_KEY  = '_thp_bio_cred';   // credential ID
+  var BIO_TOKEN_KEY = '_thp_bio_token';  // token aplikasi (terenkripsi)
+  var BIO_USER_KEY  = '_thp_bio_user';   // username
+
+  // Enkripsi sederhana (XOR + device key)
+  function devKey() {
+    var k = localStorage.getItem('_thp_dev_key');
+    if (!k) {
+      var arr = new Uint8Array(16);
+      crypto.getRandomValues(arr);
+      k = Array.from(arr).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+      localStorage.setItem('_thp_dev_key', k);
+    }
+    return k;
+  }
+  function enc(text) {
+    var key = devKey(), out = '';
+    for (var i = 0; i < text.length; i++) out += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    return btoa(out);
+  }
+  function dec(b64) {
+    try {
+      var key = devKey(), bin = atob(b64), out = '';
+      for (var i = 0; i < bin.length; i++) out += String.fromCharCode(bin.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+      return out;
+    } catch (e) { return ''; }
+  }
+  function b64ToBuf(b64) {
+    var bin = atob(b64.replace(/-/g, '+').replace(/_/g, '/'));
+    var buf = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+    return buf.buffer;
+  }
+  function bufToB64(buf) {
+    var bytes = new Uint8Array(buf), bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function bioSupported() {
+    return !!(window.PublicKeyCredential && navigator.credentials);
+  }
+  function bioTerdaftar() {
+    return !!localStorage.getItem(BIO_CRED_KEY) && !!localStorage.getItem(BIO_TOKEN_KEY);
+  }
+
+  // Daftarkan biometrik (dipanggil saat aplikasi minta via postMessage)
+  function daftarkanBiometrik(username, token) {
+    if (!bioSupported()) return Promise.reject(new Error('Perangkat tidak mendukung biometrik'));
+    var challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
+    var userId = new Uint8Array(16); crypto.getRandomValues(userId);
+    return navigator.credentials.create({
+      publicKey: {
+        challenge: challenge,
+        rp: { name: 'ARSIP DIGITAL THP' },
+        user: { id: userId, name: username, displayName: username },
+        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred' },
+        timeout: 60000,
+        attestation: 'none'
+      }
+    }).then(function (cred) {
+      localStorage.setItem(BIO_CRED_KEY, bufToB64(cred.rawId));
+      localStorage.setItem(BIO_TOKEN_KEY, enc(token));
+      localStorage.setItem(BIO_USER_KEY, username);
+      return true;
+    });
+  }
+
+  // Verifikasi biometrik → kembalikan token jika berhasil
+  function verifikasiBiometrik() {
+    if (!bioTerdaftar()) return Promise.reject(new Error('Biometrik belum terdaftar'));
+    var challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
+    var credId = localStorage.getItem(BIO_CRED_KEY);
+    return navigator.credentials.get({
+      publicKey: {
+        challenge: challenge,
+        allowCredentials: [{ type: 'public-key', id: b64ToBuf(credId), transports: ['internal'] }],
+        userVerification: 'required',
+        timeout: 60000
+      }
+    }).then(function () {
+      return dec(localStorage.getItem(BIO_TOKEN_KEY));
+    });
+  }
+
+  function hapusBiometrik() {
+    localStorage.removeItem(BIO_CRED_KEY);
+    localStorage.removeItem(BIO_TOKEN_KEY);
+    localStorage.removeItem(BIO_USER_KEY);
+  }
+
+  /* Kirim pesan ke iframe aplikasi */
+  function kirimKeApp(msg) {
+    try { iframe.contentWindow.postMessage(msg, APP_ORIGIN); } catch (e) {}
+  }
+
+  /* ════════════════════════════════════════
+     postMessage: terima perintah dari aplikasi
+     ════════════════════════════════════════ */
+  window.addEventListener('message', function (event) {
+    // VALIDASI ORIGIN — wajib untuk keamanan
+    if (event.origin !== APP_ORIGIN) return;
+    var data = event.data;
+    if (!data || typeof data !== 'object') return;
+
+    switch (data.type) {
+      // Aplikasi minta daftarkan biometrik
+      case 'DAFTAR_BIOMETRIK':
+        daftarkanBiometrik(data.username || 'user', data.token || '')
+          .then(function () { kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: true }); })
+          .catch(function (err) { kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: false, error: err.message }); });
+        break;
+
+      // Aplikasi minta status biometrik
+      case 'CEK_BIOMETRIK':
+        kirimKeApp({ type: 'STATUS_BIOMETRIK', supported: bioSupported(), terdaftar: bioTerdaftar(), username: localStorage.getItem(BIO_USER_KEY) || '' });
+        break;
+
+      // Aplikasi minta hapus biometrik
+      case 'HAPUS_BIOMETRIK':
+        hapusBiometrik();
+        kirimKeApp({ type: 'BIOMETRIK_DIHAPUS', ok: true });
+        break;
+
+      // Aplikasi memberi tahu token baru (update setelah login manual)
+      case 'UPDATE_TOKEN':
+        if (bioTerdaftar() && data.token) {
+          localStorage.setItem(BIO_TOKEN_KEY, enc(data.token));
+        }
+        break;
+
+      // Aplikasi minta tampilkan overlay biometrik (opsional)
+      case 'TAMPILKAN_BIO_LOGIN':
+        if (bioSupported() && bioTerdaftar()) tampilkanBioOverlay();
+        break;
+    }
+  });
+
+  /* ════════════════════════════════════════
+     Overlay biometrik saat buka app
+     ════════════════════════════════════════ */
+  function tampilkanBioOverlay() {
+    if (bioOverlay) bioOverlay.style.display = 'flex';
+  }
+  function sembunyikanBioOverlay() {
+    if (bioOverlay) bioOverlay.style.display = 'none';
+  }
+
+  if (bioLoginBtn) {
+    bioLoginBtn.addEventListener('click', function () {
+      verifikasiBiometrik()
+        .then(function (token) {
+          sembunyikanBioOverlay();
+          // Kirim token ke aplikasi untuk auto-login
+          kirimKeApp({ type: 'AUTO_LOGIN', token: token, username: localStorage.getItem(BIO_USER_KEY) || '' });
+        })
+        .catch(function (err) {
+          // Gagal/batal → biarkan login manual
+          if (err && err.name !== 'NotAllowedError') {
+            alert('Login biometrik gagal: ' + (err.message || 'coba lagi'));
+          }
+        });
+    });
+  }
+  if (bioSkipBtn) {
+    bioSkipBtn.addEventListener('click', sembunyikanBioOverlay);
+  }
+
+  /* Saat app load: jika biometrik terdaftar, tawarkan overlay setelah splash */
+  function mungkinTampilkanBio() {
+    if (bioSupported() && bioTerdaftar()) {
+      setTimeout(tampilkanBioOverlay, 1400);
+    }
+  }
+
+  /* ════════════════════════════════════════
+     Splash & loading
+     ════════════════════════════════════════ */
   var splashHidden = false;
   function hideSplash() {
     if (splashHidden || !splash) return;
     splashHidden = true;
     splash.classList.add('hide');
     setTimeout(function () { if (splash && splash.parentNode) splash.remove(); }, 800);
+    mungkinTampilkanBio();
   }
 
-  iframe.addEventListener('load', function () {
-    setTimeout(hideSplash, 1200);
-  });
+  iframe.addEventListener('load', function () { setTimeout(hideSplash, 1200); });
 
-  /* Fallback: jika iframe tak kunjung load dalam 15 detik → tampilkan error */
   var loadTimeout = setTimeout(function () {
-    if (!splashHidden && errorBox) {
-      errorBox.style.display = 'flex';
-    }
+    if (!splashHidden && errorBox) errorBox.style.display = 'flex';
   }, 15000);
   iframe.addEventListener('load', function () { clearTimeout(loadTimeout); });
-
-  /* Fallback tambahan: paksa sembunyikan splash setelah 8 detik apapun yang terjadi */
   setTimeout(hideSplash, 8000);
 
-  /* ── Service Worker ── */
+  /* ════════════════════════════════════════
+     Service Worker
+     ════════════════════════════════════════ */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js').catch(function (err) {
-        console.warn('SW registration failed:', err);
-      });
+      navigator.serviceWorker.register('./sw.js').catch(function (err) { console.warn('SW failed:', err); });
     });
   }
 
-  /* ── Tombol Install (hanya mobile & belum terpasang) ── */
-  if (!isMobile && installBtn) {
-    installBtn.remove();
-    installBtn = null;
-  }
-
+  /* ════════════════════════════════════════
+     Tombol Install
+     ════════════════════════════════════════ */
+  if (!isMobile && installBtn) { installBtn.remove(); installBtn = null; }
   var deferredPrompt = null;
-
   window.addEventListener('beforeinstallprompt', function (e) {
     if (!isMobile || isInstalled() || !installBtn) return;
     e.preventDefault();
     deferredPrompt = e;
     installBtn.style.display = 'block';
   });
-
   if (installBtn) {
     installBtn.addEventListener('click', function () {
       if (!deferredPrompt) return;
       installBtn.style.display = 'none';
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(function () {
-        deferredPrompt = null;
-      });
+      deferredPrompt.userChoice.then(function () { deferredPrompt = null; });
     });
   }
-
   window.addEventListener('appinstalled', function () {
     if (installBtn) installBtn.style.display = 'none';
     deferredPrompt = null;
