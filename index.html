@@ -116,6 +116,17 @@ iframe { width: 100%; height: 100%; border: none; }
 
   var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
   var APP_ORIGIN = 'https://script.google.com';
+  // Origin yang valid untuk pesan dari aplikasi GAS (konten di-render dari beberapa domain Google)
+  var ORIGIN_VALID = [
+    'https://script.google.com',
+    'https://script.googleusercontent.com',
+    'https://n-xxxxxx.googleusercontent.com' // pola subdomain dinamis GAS
+  ];
+  function originValid(origin) {
+    if (!origin) return false;
+    return origin.indexOf('script.google.com') !== -1 ||
+           origin.indexOf('googleusercontent.com') !== -1;
+  }
 
   function isInstalled() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -138,9 +149,23 @@ iframe { width: 100%; height: 100%; border: none; }
   function bufToB64(buf){ var b=new Uint8Array(buf), s=''; for(var i=0;i<b.length;i++) s+=String.fromCharCode(b[i]); return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
 
   function bioSupported(){ return !!(window.PublicKeyCredential && navigator.credentials); }
+  // Cek apakah platform authenticator (Face ID/sidik jari) tersedia
+  function bioPlatformReady(){
+    if (!bioSupported() || !window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+      return Promise.resolve(false);
+    }
+    return window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().catch(function(){ return false; });
+  }
   function bioTerdaftar(){ return !!localStorage.getItem(BIO_CRED_KEY) && !!localStorage.getItem(BIO_TOKEN_KEY); }
 
-  function kirimKeApp(msg){ try { iframe.contentWindow.postMessage(msg, APP_ORIGIN); } catch(e){} }
+  var lastAppOrigin = APP_ORIGIN;
+  function kirimKeApp(msg){
+    try { iframe.contentWindow.postMessage(msg, lastAppOrigin); } catch(e){}
+    // fallback: kirim juga ke script.google.com utama
+    if (lastAppOrigin !== APP_ORIGIN) {
+      try { iframe.contentWindow.postMessage(msg, APP_ORIGIN); } catch(e){}
+    }
+  }
 
   /* ── Pendaftaran: dipicu oleh KLIK LANGSUNG di wrapper (user gesture valid) ── */
   function daftarkanBiometrik() {
@@ -165,7 +190,15 @@ iframe { width: 100%; height: 100%; border: none; }
       kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: true });
       alert('Login biometrik berhasil diaktifkan!');
     }).catch(function (err) {
-      if (err && err.name !== 'NotAllowedError') alert('Gagal: ' + (err.message || 'coba lagi'));
+      var pesan = err.message || 'coba lagi';
+      if (err && err.name === 'NotAllowedError') {
+        pesan = 'Pendaftaran dibatalkan atau diblokir browser. Pastikan Face ID/sidik jari aktif di perangkat dan coba lagi.';
+      } else if (err && err.name === 'SecurityError') {
+        pesan = 'Diblokir keamanan browser (iframe). Fitur biometrik mungkin tidak didukung di konfigurasi ini.';
+      } else if (err && err.name === 'NotSupportedError') {
+        pesan = 'Perangkat tidak memiliki sensor biometrik yang terdaftar.';
+      }
+      alert('Biometrik gagal: ' + pesan);
       kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: false, error: err.message });
     });
   }
@@ -205,7 +238,8 @@ iframe { width: 100%; height: 100%; border: none; }
 
   /* ── Terima pesan dari aplikasi (iframe) ── */
   window.addEventListener('message', function (event) {
-    if (event.origin !== APP_ORIGIN) return;
+    if (!originValid(event.origin)) return;
+    lastAppOrigin = event.origin; // ingat origin untuk balasan
     var data = event.data;
     if (!data || typeof data !== 'object') return;
 
@@ -214,11 +248,14 @@ iframe { width: 100%; height: 100%; border: none; }
       case 'LOGIN_SUKSES':
         pendingToken = data.token || '';
         pendingUser  = data.username || '';
-        // Update token jika biometrik sudah terdaftar
         if (bioTerdaftar() && pendingToken) localStorage.setItem(BIO_TOKEN_KEY, enc(pendingToken));
-        // Tawarkan aktifkan jika support & belum terdaftar
-        if (bioSupported() && !bioTerdaftar() && pendingToken) {
-          bioEnableBtn.style.display = 'flex';
+        // Tawarkan aktifkan jika platform biometrik tersedia & belum terdaftar
+        if (!bioTerdaftar() && pendingToken) {
+          bioPlatformReady().then(function(ready){
+            if (ready) {
+              bioEnableBtn.style.display = 'flex';
+            }
+          });
         }
         break;
 
