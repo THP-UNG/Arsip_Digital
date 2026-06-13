@@ -3,57 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
 <title>ARSIP DIGITAL THP</title>
-
 <meta name="description" content="Arsip Digital THP Universitas Negeri Gorontalo">
 <meta name="theme-color" content="#ffffff">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ARSIP DIGITAL THP">
-
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
 <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1PKxxfVuSnfWPKP6ZNNnb8ewt3TG_3D0U=w512">
-
 <style>
 html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #fff; font-family: Arial, sans-serif; }
-
-/* SPLASH */
 #splash { position: fixed; inset: 0; background: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity .8s ease; }
 #splash.hide { opacity: 0; pointer-events: none; }
 #splash img { width: 160px; max-width: 40vw; opacity: 0; transform: scale(.85); animation: logoAppear 1.4s ease forwards; }
 #splash img.broken { display: none; }
 @keyframes logoAppear { 0% { opacity: 0; transform: scale(.85); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
-#splash h2 { margin: 22px 0 6px; color: #1f2937; font-size: 24px; font-weight: 700; letter-spacing: .3px; text-align: center; padding: 0 16px; opacity: 0; animation: textAppear .8s ease forwards; animation-delay: .5s; }
+#splash h2 { margin: 22px 0 6px; color: #1f2937; font-size: 24px; font-weight: 700; text-align: center; padding: 0 16px; opacity: 0; animation: textAppear .8s ease forwards; animation-delay: .5s; }
 #splash p { margin: 0; color: #6b7280; font-size: 14px; text-align: center; padding: 0 16px; opacity: 0; animation: textAppear .8s ease forwards; animation-delay: .8s; }
 @keyframes textAppear { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .loader { width: 220px; max-width: 60vw; height: 4px; margin-top: 30px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
 .loader span { display: block; height: 100%; width: 40%; background: #dc2626; border-radius: 999px; animation: slide 1.3s ease-in-out infinite; }
 @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
 
-/* INSTALL BUTTON */
 #installBtn { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); padding: 12px 20px; border: none; border-radius: 10px; background: #dc2626; color: #fff; font-size: 15px; font-weight: bold; z-index: 999; display: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,.15); }
 @media screen and (min-width: 769px) { #installBtn { display: none !important; } }
 
 .iframe-container { width: 100%; height: 100dvh; }
 iframe { width: 100%; height: 100%; border: none; }
 
-/* ERROR */
 #errorBox { position: fixed; inset: 0; background: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9998; padding: 24px; text-align: center; }
 #errorBox h3 { color: #1f2937; margin: 0 0 8px; }
 #errorBox p { color: #6b7280; font-size: 14px; margin: 0 0 20px; }
 #errorBox button { padding: 10px 24px; border: none; border-radius: 10px; background: #dc2626; color: #fff; font-weight: bold; cursor: pointer; }
 
-/* BIOMETRIK PROMPT (overlay saat buka app) */
-#bioOverlay { position: fixed; inset: 0; background: rgba(255,255,255,.97); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9997; padding: 24px; text-align: center; }
-#bioOverlay .bioIcon { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg,#4f46e5,#2563eb); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 8px 24px rgba(37,99,235,.3); }
-#bioOverlay .bioIcon svg { width: 36px; height: 36px; fill: #fff; }
-#bioOverlay h3 { color: #1f2937; margin: 0 0 6px; font-size: 18px; }
-#bioOverlay p { color: #6b7280; font-size: 13px; margin: 0 0 22px; max-width: 280px; }
+/* Tombol "Aktifkan Biometrik" floating (muncul setelah login) */
+#bioEnableBtn {
+  position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+  padding: 12px 22px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg,#4f46e5,#2563eb); color: #fff; font-size: 14px; font-weight: bold;
+  z-index: 998; display: none; cursor: pointer; box-shadow: 0 6px 20px rgba(37,99,235,.35);
+  align-items: center; gap: 8px;
+}
+#bioEnableBtn .x { margin-left: 6px; opacity: .7; font-weight: normal; }
+
+/* Overlay login biometrik */
+#bioOverlay { position: fixed; inset: 0; background: rgba(255,255,255,.98); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 9997; padding: 24px; text-align: center; }
+#bioOverlay .bioIcon { width: 76px; height: 76px; border-radius: 50%; background: linear-gradient(135deg,#4f46e5,#2563eb); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 8px 24px rgba(37,99,235,.3); }
+#bioOverlay .bioIcon svg { width: 38px; height: 38px; fill: #fff; }
+#bioOverlay h3 { color: #1f2937; margin: 0 0 6px; font-size: 19px; }
+#bioOverlay p { color: #6b7280; font-size: 13px; margin: 0 0 24px; max-width: 280px; }
 #bioOverlay .bioBtns { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 260px; }
-#bioOverlay button { padding: 12px 20px; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
+#bioOverlay button { padding: 13px 20px; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
 #bioLoginBtn { background: linear-gradient(135deg,#4f46e5,#2563eb); color: #fff; }
 #bioSkipBtn { background: #f1f5f9; color: #475569; }
 </style>
@@ -73,11 +75,8 @@ iframe { width: 100%; height: 100%; border: none; }
   <button onclick="location.reload()">Muat Ulang</button>
 </div>
 
-<!-- Overlay biometrik -->
 <div id="bioOverlay">
-  <div class="bioIcon">
-    <svg viewBox="0 0 24 24"><path d="M12 1C7 1 3 5 3 10v2c0 1 .8 2 2 2h.5c.3 0 .5-.2.5-.5V10c0-3.3 2.7-6 6-6s6 2.7 6 6v3.5c0 .3.2.5.5.5H19c1.2 0 2-1 2-2v-2c0-5-4-9-9-9zm0 6c-1.7 0-3 1.3-3 3v6c0 1.7 1.3 3 3 3s3-1.3 3-3v-6c0-1.7-1.3-3-3-3z"/></svg>
-  </div>
+  <div class="bioIcon"><svg viewBox="0 0 24 24"><path d="M12 1C7 1 3 5 3 10v2c0 1 .8 2 2 2h.5c.3 0 .5-.2.5-.5V10c0-3.3 2.7-6 6-6s6 2.7 6 6v3.5c0 .3.2.5.5.5H19c1.2 0 2-1 2-2v-2c0-5-4-9-9-9zm0 6c-1.7 0-3 1.3-3 3v6c0 1.7 1.3 3 3 3s3-1.3 3-3v-6c0-1.7-1.3-3-3-3z"/></svg></div>
   <h3>Login Biometrik</h3>
   <p>Gunakan Face ID atau sidik jari untuk masuk dengan cepat.</p>
   <div class="bioBtns">
@@ -85,6 +84,10 @@ iframe { width: 100%; height: 100%; border: none; }
     <button id="bioSkipBtn" type="button">Login Manual</button>
   </div>
 </div>
+
+<button id="bioEnableBtn" type="button">
+  <span>🔒 Aktifkan Login Biometrik</span><span class="x" id="bioEnableClose">✕</span>
+</button>
 
 <button id="installBtn" type="button">📲 Install Aplikasi</button>
 
@@ -101,109 +104,88 @@ iframe { width: 100%; height: 100%; border: none; }
 (function () {
   'use strict';
 
-  var splash     = document.getElementById('splash');
-  var iframe     = document.getElementById('app');
-  var installBtn = document.getElementById('installBtn');
-  var errorBox   = document.getElementById('errorBox');
-  var bioOverlay = document.getElementById('bioOverlay');
+  var splash      = document.getElementById('splash');
+  var iframe      = document.getElementById('app');
+  var installBtn  = document.getElementById('installBtn');
+  var errorBox    = document.getElementById('errorBox');
+  var bioOverlay  = document.getElementById('bioOverlay');
   var bioLoginBtn = document.getElementById('bioLoginBtn');
   var bioSkipBtn  = document.getElementById('bioSkipBtn');
+  var bioEnableBtn = document.getElementById('bioEnableBtn');
+  var bioEnableClose = document.getElementById('bioEnableClose');
 
   var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-
-  /* Origin aplikasi GAS — WAJIB untuk validasi postMessage */
   var APP_ORIGIN = 'https://script.google.com';
 
   function isInstalled() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   }
 
-  /* ════════════════════════════════════════
-     BIOMETRIK (WebAuthn) — jalan di GitHub Pages
-     ════════════════════════════════════════ */
-  var BIO_CRED_KEY  = '_thp_bio_cred';   // credential ID
-  var BIO_TOKEN_KEY = '_thp_bio_token';  // token aplikasi (terenkripsi)
-  var BIO_USER_KEY  = '_thp_bio_user';   // username
+  /* ── Penyimpanan biometrik ── */
+  var BIO_CRED_KEY = '_thp_bio_cred', BIO_TOKEN_KEY = '_thp_bio_token', BIO_USER_KEY = '_thp_bio_user';
 
-  // Enkripsi sederhana (XOR + device key)
+  // token sementara dari aplikasi (menunggu user klik "Aktifkan")
+  var pendingToken = '', pendingUser = '';
+
   function devKey() {
     var k = localStorage.getItem('_thp_dev_key');
-    if (!k) {
-      var arr = new Uint8Array(16);
-      crypto.getRandomValues(arr);
-      k = Array.from(arr).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-      localStorage.setItem('_thp_dev_key', k);
-    }
+    if (!k) { var a = new Uint8Array(16); crypto.getRandomValues(a); k = Array.from(a).map(function(b){return b.toString(16).padStart(2,'0');}).join(''); localStorage.setItem('_thp_dev_key', k); }
     return k;
   }
-  function enc(text) {
-    var key = devKey(), out = '';
-    for (var i = 0; i < text.length; i++) out += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-    return btoa(out);
-  }
-  function dec(b64) {
-    try {
-      var key = devKey(), bin = atob(b64), out = '';
-      for (var i = 0; i < bin.length; i++) out += String.fromCharCode(bin.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-      return out;
-    } catch (e) { return ''; }
-  }
-  function b64ToBuf(b64) {
-    var bin = atob(b64.replace(/-/g, '+').replace(/_/g, '/'));
-    var buf = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
-    return buf.buffer;
-  }
-  function bufToB64(buf) {
-    var bytes = new Uint8Array(buf), bin = '';
-    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  }
+  function enc(t) { var key = devKey(), o = ''; for (var i=0;i<t.length;i++) o += String.fromCharCode(t.charCodeAt(i)^key.charCodeAt(i%key.length)); return btoa(o); }
+  function dec(b) { try { var key=devKey(), s=atob(b), o=''; for(var i=0;i<s.length;i++) o+=String.fromCharCode(s.charCodeAt(i)^key.charCodeAt(i%key.length)); return o; } catch(e){ return ''; } }
+  function b64ToBuf(b){ var s=atob(b.replace(/-/g,'+').replace(/_/g,'/')), u=new Uint8Array(s.length); for(var i=0;i<s.length;i++) u[i]=s.charCodeAt(i); return u.buffer; }
+  function bufToB64(buf){ var b=new Uint8Array(buf), s=''; for(var i=0;i<b.length;i++) s+=String.fromCharCode(b[i]); return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
 
-  function bioSupported() {
-    return !!(window.PublicKeyCredential && navigator.credentials);
-  }
-  function bioTerdaftar() {
-    return !!localStorage.getItem(BIO_CRED_KEY) && !!localStorage.getItem(BIO_TOKEN_KEY);
-  }
+  function bioSupported(){ return !!(window.PublicKeyCredential && navigator.credentials); }
+  function bioTerdaftar(){ return !!localStorage.getItem(BIO_CRED_KEY) && !!localStorage.getItem(BIO_TOKEN_KEY); }
 
-  // Daftarkan biometrik (dipanggil saat aplikasi minta via postMessage)
-  function daftarkanBiometrik(username, token) {
-    if (!bioSupported()) return Promise.reject(new Error('Perangkat tidak mendukung biometrik'));
+  function kirimKeApp(msg){ try { iframe.contentWindow.postMessage(msg, APP_ORIGIN); } catch(e){} }
+
+  /* ── Pendaftaran: dipicu oleh KLIK LANGSUNG di wrapper (user gesture valid) ── */
+  function daftarkanBiometrik() {
+    if (!bioSupported()) { alert('Perangkat tidak mendukung biometrik.'); return; }
+    if (!pendingToken) { alert('Silakan login terlebih dahulu.'); return; }
     var challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
     var userId = new Uint8Array(16); crypto.getRandomValues(userId);
-    return navigator.credentials.create({
+    navigator.credentials.create({
       publicKey: {
         challenge: challenge,
         rp: { name: 'ARSIP DIGITAL THP' },
-        user: { id: userId, name: username, displayName: username },
-        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
-        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred' },
-        timeout: 60000,
-        attestation: 'none'
+        user: { id: userId, name: pendingUser || 'user', displayName: pendingUser || 'user' },
+        pubKeyCredParams: [{ type:'public-key', alg:-7 }, { type:'public-key', alg:-257 }],
+        authenticatorSelection: { authenticatorAttachment:'platform', userVerification:'required', residentKey:'preferred' },
+        timeout: 60000, attestation: 'none'
       }
     }).then(function (cred) {
       localStorage.setItem(BIO_CRED_KEY, bufToB64(cred.rawId));
-      localStorage.setItem(BIO_TOKEN_KEY, enc(token));
-      localStorage.setItem(BIO_USER_KEY, username);
-      return true;
+      localStorage.setItem(BIO_TOKEN_KEY, enc(pendingToken));
+      localStorage.setItem(BIO_USER_KEY, pendingUser || 'user');
+      bioEnableBtn.style.display = 'none';
+      kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: true });
+      alert('Login biometrik berhasil diaktifkan!');
+    }).catch(function (err) {
+      if (err && err.name !== 'NotAllowedError') alert('Gagal: ' + (err.message || 'coba lagi'));
+      kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: false, error: err.message });
     });
   }
 
-  // Verifikasi biometrik → kembalikan token jika berhasil
-  function verifikasiBiometrik() {
-    if (!bioTerdaftar()) return Promise.reject(new Error('Biometrik belum terdaftar'));
+  /* ── Login: dipicu oleh KLIK LANGSUNG di overlay (user gesture valid) ── */
+  function loginBiometrik() {
+    if (!bioTerdaftar()) return;
     var challenge = new Uint8Array(32); crypto.getRandomValues(challenge);
-    var credId = localStorage.getItem(BIO_CRED_KEY);
-    return navigator.credentials.get({
+    navigator.credentials.get({
       publicKey: {
         challenge: challenge,
-        allowCredentials: [{ type: 'public-key', id: b64ToBuf(credId), transports: ['internal'] }],
-        userVerification: 'required',
-        timeout: 60000
+        allowCredentials: [{ type:'public-key', id:b64ToBuf(localStorage.getItem(BIO_CRED_KEY)), transports:['internal'] }],
+        userVerification: 'required', timeout: 60000
       }
     }).then(function () {
-      return dec(localStorage.getItem(BIO_TOKEN_KEY));
+      bioOverlay.style.display = 'none';
+      var token = dec(localStorage.getItem(BIO_TOKEN_KEY));
+      kirimKeApp({ type: 'AUTO_LOGIN', token: token, username: localStorage.getItem(BIO_USER_KEY) || '' });
+    }).catch(function (err) {
+      if (err && err.name !== 'NotAllowedError') alert('Login biometrik gagal: ' + (err.message || 'coba lagi'));
     });
   }
 
@@ -213,144 +195,93 @@ iframe { width: 100%; height: 100%; border: none; }
     localStorage.removeItem(BIO_USER_KEY);
   }
 
-  /* Kirim pesan ke iframe aplikasi */
-  function kirimKeApp(msg) {
-    try { iframe.contentWindow.postMessage(msg, APP_ORIGIN); } catch (e) {}
-  }
+  /* Tombol biometrik = KLIK LANGSUNG (inilah kunci agar WebAuthn tidak diblokir) */
+  if (bioEnableBtn) bioEnableBtn.addEventListener('click', function (e) {
+    if (e.target === bioEnableClose) { bioEnableBtn.style.display = 'none'; return; }
+    daftarkanBiometrik();
+  });
+  if (bioLoginBtn) bioLoginBtn.addEventListener('click', loginBiometrik);
+  if (bioSkipBtn)  bioSkipBtn.addEventListener('click', function(){ bioOverlay.style.display = 'none'; });
 
-  /* ════════════════════════════════════════
-     postMessage: terima perintah dari aplikasi
-     ════════════════════════════════════════ */
+  /* ── Terima pesan dari aplikasi (iframe) ── */
   window.addEventListener('message', function (event) {
-    // VALIDASI ORIGIN — wajib untuk keamanan
     if (event.origin !== APP_ORIGIN) return;
     var data = event.data;
     if (!data || typeof data !== 'object') return;
 
     switch (data.type) {
-      // Aplikasi minta daftarkan biometrik
-      case 'DAFTAR_BIOMETRIK':
-        daftarkanBiometrik(data.username || 'user', data.token || '')
-          .then(function () { kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: true }); })
-          .catch(function (err) { kirimKeApp({ type: 'BIOMETRIK_TERDAFTAR', ok: false, error: err.message }); });
+      // Aplikasi login sukses → simpan token sementara & tampilkan tombol "Aktifkan"
+      case 'LOGIN_SUKSES':
+        pendingToken = data.token || '';
+        pendingUser  = data.username || '';
+        // Update token jika biometrik sudah terdaftar
+        if (bioTerdaftar() && pendingToken) localStorage.setItem(BIO_TOKEN_KEY, enc(pendingToken));
+        // Tawarkan aktifkan jika support & belum terdaftar
+        if (bioSupported() && !bioTerdaftar() && pendingToken) {
+          bioEnableBtn.style.display = 'flex';
+        }
         break;
 
       // Aplikasi minta status biometrik
       case 'CEK_BIOMETRIK':
-        kirimKeApp({ type: 'STATUS_BIOMETRIK', supported: bioSupported(), terdaftar: bioTerdaftar(), username: localStorage.getItem(BIO_USER_KEY) || '' });
+        kirimKeApp({ type: 'STATUS_BIOMETRIK', supported: bioSupported(), terdaftar: bioTerdaftar() });
         break;
 
       // Aplikasi minta hapus biometrik
       case 'HAPUS_BIOMETRIK':
         hapusBiometrik();
+        bioEnableBtn.style.display = 'none';
         kirimKeApp({ type: 'BIOMETRIK_DIHAPUS', ok: true });
-        break;
-
-      // Aplikasi memberi tahu token baru (update setelah login manual)
-      case 'UPDATE_TOKEN':
-        if (bioTerdaftar() && data.token) {
-          localStorage.setItem(BIO_TOKEN_KEY, enc(data.token));
-        }
-        break;
-
-      // Aplikasi minta tampilkan overlay biometrik (opsional)
-      case 'TAMPILKAN_BIO_LOGIN':
-        if (bioSupported() && bioTerdaftar()) tampilkanBioOverlay();
         break;
     }
   });
 
-  /* ════════════════════════════════════════
-     Overlay biometrik saat buka app
-     ════════════════════════════════════════ */
-  function tampilkanBioOverlay() {
-    if (bioOverlay) bioOverlay.style.display = 'flex';
-  }
-  function sembunyikanBioOverlay() {
-    if (bioOverlay) bioOverlay.style.display = 'none';
-  }
-
-  if (bioLoginBtn) {
-    bioLoginBtn.addEventListener('click', function () {
-      verifikasiBiometrik()
-        .then(function (token) {
-          sembunyikanBioOverlay();
-          // Kirim token ke aplikasi untuk auto-login
-          kirimKeApp({ type: 'AUTO_LOGIN', token: token, username: localStorage.getItem(BIO_USER_KEY) || '' });
-        })
-        .catch(function (err) {
-          // Gagal/batal → biarkan login manual
-          if (err && err.name !== 'NotAllowedError') {
-            alert('Login biometrik gagal: ' + (err.message || 'coba lagi'));
-          }
-        });
-    });
-  }
-  if (bioSkipBtn) {
-    bioSkipBtn.addEventListener('click', sembunyikanBioOverlay);
-  }
-
-  /* Saat app load: jika biometrik terdaftar, tawarkan overlay setelah splash */
-  function mungkinTampilkanBio() {
+  /* Tampilkan overlay login biometrik saat buka app (jika terdaftar) */
+  function mungkinTampilkanBioLogin() {
     if (bioSupported() && bioTerdaftar()) {
-      setTimeout(tampilkanBioOverlay, 1400);
+      setTimeout(function () { bioOverlay.style.display = 'flex'; }, 1400);
     }
   }
 
-  /* ════════════════════════════════════════
-     Splash & loading
-     ════════════════════════════════════════ */
+  /* ── Splash ── */
   var splashHidden = false;
   function hideSplash() {
     if (splashHidden || !splash) return;
     splashHidden = true;
     splash.classList.add('hide');
     setTimeout(function () { if (splash && splash.parentNode) splash.remove(); }, 800);
-    mungkinTampilkanBio();
+    mungkinTampilkanBioLogin();
   }
-
   iframe.addEventListener('load', function () { setTimeout(hideSplash, 1200); });
-
-  var loadTimeout = setTimeout(function () {
-    if (!splashHidden && errorBox) errorBox.style.display = 'flex';
-  }, 15000);
+  var loadTimeout = setTimeout(function () { if (!splashHidden && errorBox) errorBox.style.display = 'flex'; }, 15000);
   iframe.addEventListener('load', function () { clearTimeout(loadTimeout); });
   setTimeout(hideSplash, 8000);
 
-  /* ════════════════════════════════════════
-     Service Worker
-     ════════════════════════════════════════ */
+  /* ── Service Worker ── */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('./sw.js').catch(function (err) { console.warn('SW failed:', err); });
     });
   }
 
-  /* ════════════════════════════════════════
-     Tombol Install
-     ════════════════════════════════════════ */
+  /* ── Install ── */
   if (!isMobile && installBtn) { installBtn.remove(); installBtn = null; }
   var deferredPrompt = null;
   window.addEventListener('beforeinstallprompt', function (e) {
     if (!isMobile || isInstalled() || !installBtn) return;
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = 'block';
+    e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'block';
   });
-  if (installBtn) {
-    installBtn.addEventListener('click', function () {
-      if (!deferredPrompt) return;
-      installBtn.style.display = 'none';
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(function () { deferredPrompt = null; });
-    });
-  }
+  if (installBtn) installBtn.addEventListener('click', function () {
+    if (!deferredPrompt) return;
+    installBtn.style.display = 'none';
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () { deferredPrompt = null; });
+  });
   window.addEventListener('appinstalled', function () {
     if (installBtn) installBtn.style.display = 'none';
     deferredPrompt = null;
   });
 })();
 </script>
-
 </body>
 </html>
