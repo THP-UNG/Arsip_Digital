@@ -279,13 +279,23 @@ iframe { width: 100%; height: 100%; border: none; }
         bioEnableBtn.style.display = 'none';
         kirimKeApp({ type: 'BIOMETRIK_DIHAPUS', ok: true });
         break;
+
+      // Aplikasi sudah pasti mengecek: TIDAK ada sesi login aktif -- sekarang
+      // baru aman menampilkan overlay biometrik (kalau perangkat sudah terdaftar).
+      case 'BELUM_LOGIN':
+        hideSplash();
+        mungkinTampilkanBioLogin();
+        break;
     }
   });
 
-  /* Tampilkan overlay login biometrik saat buka app (jika terdaftar) */
+  /* Tampilkan overlay login biometrik -- DIPICU SINYAL EKSPLISIT dari app (pesan
+     BELUM_LOGIN), BUKAN tebakan waktu. iframe.load bisa terpicu lebih awal dari
+     yang diharapkan (mis. ada tahap redirect Google sebelum konten asli dimuat),
+     jadi timer tebakan waktu tidak bisa diandalkan. */
   function mungkinTampilkanBioLogin() {
     if (bioSupported() && bioTerdaftar()) {
-      setTimeout(function () { bioOverlay.style.display = 'flex'; }, 1400);
+      bioOverlay.style.display = 'flex';
     }
   }
 
@@ -296,7 +306,6 @@ iframe { width: 100%; height: 100%; border: none; }
     splashHidden = true;
     splash.classList.add('hide');
     setTimeout(function () { if (splash && splash.parentNode) splash.remove(); }, 800);
-    mungkinTampilkanBioLogin();
   }
   iframe.addEventListener('load', function () { setTimeout(hideSplash, 1200); });
   var loadTimeout = setTimeout(function () { if (!splashHidden && errorBox) errorBox.style.display = 'flex'; }, 15000);
