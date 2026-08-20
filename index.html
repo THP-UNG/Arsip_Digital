@@ -159,9 +159,14 @@ iframe { width: 100%; height: 100%; border: none; }
   function bioTerdaftar(){ return !!localStorage.getItem(BIO_CRED_KEY) && !!localStorage.getItem(BIO_TOKEN_KEY); }
 
   var lastAppOrigin = APP_ORIGIN;
+  var lastAppSource = null; // referensi PERSIS ke window app (dari event.source), berapa pun dalamnya bersarang
   function kirimKeApp(msg){
+    // Utamakan event.source (persis, tembus berapa pun level nesting Google Apps Script)
+    if (lastAppSource) {
+      try { lastAppSource.postMessage(msg, lastAppOrigin); return; } catch(e){}
+    }
+    // Fallback: iframe.contentWindow (cuma jangkau 1 level, dipakai kalau belum pernah terima pesan sama sekali)
     try { iframe.contentWindow.postMessage(msg, lastAppOrigin); } catch(e){}
-    // fallback: kirim juga ke script.google.com utama
     if (lastAppOrigin !== APP_ORIGIN) {
       try { iframe.contentWindow.postMessage(msg, APP_ORIGIN); } catch(e){}
     }
@@ -240,6 +245,7 @@ iframe { width: 100%; height: 100%; border: none; }
   window.addEventListener('message', function (event) {
     if (!originValid(event.origin)) return;
     lastAppOrigin = event.origin; // ingat origin untuk balasan
+    lastAppSource = event.source; // ingat referensi window PERSIS utk balasan (tembus nesting)
     var data = event.data;
     if (!data || typeof data !== 'object') return;
 
