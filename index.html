@@ -134,6 +134,7 @@ iframe { width: 100%; height: 100%; border: none; }
 
   /* ── Penyimpanan biometrik ── */
   var BIO_CRED_KEY = '_thp_bio_cred', BIO_TOKEN_KEY = '_thp_bio_token', BIO_USER_KEY = '_thp_bio_user';
+  var PWA_DEVKEY_KEY = '_thp_pwa_devkey', PWA_CREDS_KEY = '_thp_pwa_creds';
 
   // token sementara dari aplikasi (menunggu user klik "Aktifkan")
   var pendingToken = '', pendingUser = '';
@@ -285,6 +286,25 @@ iframe { width: 100%; height: 100%; border: none; }
       case 'BELUM_LOGIN':
         hideSplash();
         mungkinTampilkanBioLogin();
+        break;
+
+      // Simpan salinan cadangan kredensial "Ingat Saya" (username/password terenkripsi
+      // ringan) di localStorage wrapper -- origin utama, jauh lebih tahan dari
+      // pembersihan storage otomatis browser mobile dibanding localStorage iframe.
+      case 'SIMPAN_KREDENSIAL_PWA':
+        try {
+          if (data.devKey) localStorage.setItem(PWA_DEVKEY_KEY, data.devKey);
+          if (data.pwaCreds) localStorage.setItem(PWA_CREDS_KEY, data.pwaCreds);
+        } catch(e) {}
+        break;
+
+      // App minta kredensial PWA cadangan (dipulihkan ke localStorage iframe jika ada)
+      case 'MINTA_KREDENSIAL_PWA':
+        kirimKeApp({
+          type: 'KREDENSIAL_PWA_TERSIMPAN',
+          devKey: localStorage.getItem(PWA_DEVKEY_KEY) || '',
+          pwaCreds: localStorage.getItem(PWA_CREDS_KEY) || ''
+        });
         break;
     }
   });
