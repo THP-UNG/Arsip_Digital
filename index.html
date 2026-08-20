@@ -254,6 +254,9 @@ iframe { width: 100%; height: 100%; border: none; }
       case 'LOGIN_SUKSES':
         pendingToken = data.token || '';
         pendingUser  = data.username || '';
+        // User sudah login (baik manual maupun dipulihkan dari sesi "Ingat Saya") --
+        // overlay "Login Biometrik" jadi tidak relevan lagi, sembunyikan/batalkan.
+        bioOverlay.style.display = 'none';
         if (bioTerdaftar() && pendingToken) localStorage.setItem(BIO_TOKEN_KEY, enc(pendingToken));
         // Tawarkan aktifkan jika platform biometrik tersedia & belum terdaftar
         if (!bioTerdaftar() && pendingToken) {
